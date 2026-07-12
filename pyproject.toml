@@ -1,0 +1,71 @@
+[tool.poetry]
+name = "kronos-trade"
+version = "0.1.0"
+description = "Automated trading system powered by the Kronos financial foundation model"
+authors = ["Lake"]
+readme = "README.md"
+packages = [{include = "kronos_trade"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+# Core
+pydantic = "^2.7"
+pydantic-settings = "^2.3"
+python-dotenv = "^1.0"
+loguru = "^0.7"
+typer = "^0.24.1"
+
+# Async / API
+fastapi = "^0.135.3"
+uvicorn = {extras = ["standard"], version = "^0.44"}
+websockets = "^16.0"
+httpx = "^0.28.1"
+
+# Data
+pandas = "^2.2"
+numpy = "^1.26"
+redis = {extras = ["hiredis"], version = "^5.0"}
+
+# ML / Kronos (Kronos repo cloned to vendor/Kronos)
+torch = "^2.3"
+transformers = "^5.5.3"
+accelerate = "1.13.0"
+
+# Market data feeds
+alpaca-py = "^0.26"
+ccxt = "^4.3"
+databento = "^0.75.0"
+
+# Database
+sqlalchemy = {extras = ["asyncio"], version = "^2.0"}
+aiosqlite = "^0.20"
+
+# Dashboard
+textual = "^8.2.3"
+plotext = "^5.2"
+rich = "^15.0.0"
+
+[tool.poetry.extras]
+# Install Databento support: poetry install -E databento
+databento = ["databento"]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2"
+pytest-asyncio = "^0.23"
+ruff = "^0.4"
+mypy = "^1.10"
+
+[tool.poetry.scripts]
+kronos-trade = "kronos_trade.cli:app"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

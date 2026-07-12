@@ -1,0 +1,61 @@
+# Python bytecode and tooling
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+
+# Packaging / build artifacts
+build/
+dist/
+site/
+.eggs/
+*.egg
+*.egg-info/
+pip-wheel-metadata/
+
+# Virtual environments and local Python versions
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Editors / OS noise
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local secrets and overrides
+.env
+.env.*
+!.env.example
+
+# Runtime logs, caches, and temp files
+logs/
+*.log
+.cache/
+tmp/
+temp/
+*.tmp
+
+# Local databases and app state
+*.db
+*.sqlite
+*.sqlite3
+kronos_router_state.json
+kronos_position_params.json
+
+# Frontend / misc caches
+node_modules/
+
+# Next.js build artifacts
+apps/web/.next/
+apps/web/node_modules/

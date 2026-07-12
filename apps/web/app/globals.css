@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-surface text-ink font-mono text-xs antialiased;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme(colors.border.DEFAULT) transparent;
+  }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: theme(colors.border.DEFAULT); border-radius: 2px; }
+}
+
+@layer utilities {
+  .text-positive { @apply text-accent-green; }
+  .text-negative { @apply text-accent-red; }
+  .border-positive { @apply border-accent-green; }
+  .border-negative { @apply border-accent-red; }
+
+  .stat-card {
+    @apply bg-surface-1 border border-border rounded-lg p-4 flex flex-col gap-1;
+  }
+
+  .stat-label {
+    @apply text-ink-3 text-[10px] uppercase tracking-widest;
+  }
+
+  .stat-value {
+    @apply text-ink text-lg font-semibold tabular-nums;
+  }
+
+  .table-row-win {
+    @apply border-l-2 border-accent-green;
+  }
+
+  .table-row-loss {
+    @apply border-l-2 border-accent-red;
+  }
+
+  .table-row-open {
+    @apply border-l-2 border-accent-amber;
+  }
+}

@@ -1,0 +1,1 @@
+"""FastAPI REST + WebSocket server."""
