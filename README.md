@@ -29,7 +29,7 @@ Databento ─────┘           Signal gen    ─┘  Gate    ► NinjaTr
 
 ```bash
 # 1. Clone and set up Python environment
-git clone <this-repo>
+git clone https://github.com/robruon/kats.git
 cd kronos-trade
 chmod +x scripts/setup.sh && ./scripts/setup.sh
 
