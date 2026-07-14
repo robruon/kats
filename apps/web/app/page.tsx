@@ -31,6 +31,7 @@ export default function HomePage() {
 
   // ── Fetch recent signals from DB on mount ─────────────────────────────
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") return;
     fetch(`${ENGINE}/signals/recent?limit=50`)
       .then((r) => r.ok ? r.json() : [])
       .then((rows: Signal[]) => {

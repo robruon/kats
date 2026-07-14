@@ -51,6 +51,8 @@ export function JournalView() {
   // Track which brokerKeys have been auto-synced this mount so we don't loop
   const autoSyncedRef = useRef(new Set<string>());
 
+  const DEMO_MODE = typeof window !== "undefined" && process.env.NEXT_PUBLIC_DEMO_MODE === "true";
+
   const load = useCallback(async () => {
     // Don't load until we know which broker/account is active —
     // otherwise all three endpoints return mixed or empty data.
@@ -111,12 +113,13 @@ export function JournalView() {
       noFilters &&
       connected &&
       brokerKey &&
-      !autoSyncedRef.current.has(brokerKey)
+      !autoSyncedRef.current.has(brokerKey) &&
+      ! DEMO_MODE
     ) {
       autoSyncedRef.current.add(brokerKey);
       syncHistory();
     }
-  }, [loading, trades.length, noFilters, connected, brokerKey, syncHistory]);
+  }, [loading, trades.length, noFilters, connected, brokerKey, syncHistory, DEMO_MODE]);
 
   const symbols = Array.from(new Set(trades.map((t) => t.symbol))).sort();
 
