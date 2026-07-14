@@ -114,7 +114,7 @@ export function JournalView() {
       connected &&
       brokerKey &&
       !autoSyncedRef.current.has(brokerKey) &&
-      ! DEMO_MODE
+      !DEMO_MODE
     ) {
       autoSyncedRef.current.add(brokerKey);
       syncHistory();

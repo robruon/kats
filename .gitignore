@@ -48,6 +48,7 @@ temp/
 
 # Local databases and app state
 *.db
+!kronos_trade_demo.db
 *.sqlite
 *.sqlite3
 kronos_router_state.json
