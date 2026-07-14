@@ -6,7 +6,7 @@
     "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start --port 3000",
-    "postinstall": "cp ../../kronos_trade_demo.db ./kronos_trade_demo.db 2>/dev/null; cp ../../kronos_trade.db ./kronos_trade.db 2>/dev/null; true",
+    "postinstall": "cp ../../kronos_trade_demo.db ./kronos_trade_demo.db 2>/dev/null; cp ../../kronos_trade.db ./kronos_trade.db 2>/dev/null; true"
   },
   "dependencies": {
     "next": "^16.2.10",
