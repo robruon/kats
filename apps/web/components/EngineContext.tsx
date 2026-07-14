@@ -10,6 +10,7 @@ import {
   useRef, type ReactNode,
 } from "react";
 import type { WsEvent } from "@/lib/types";
+import { positions as demoPositions, sigs as demoSigs, getDemoLogEntries } from "@/lib/demoData"
 
 type WsHandler = (evt: WsEvent) => void;
 
@@ -61,6 +62,7 @@ export function useEngineEvent(handler: WsHandler) {
 }
 
 export function EngineProvider({ children }: { children: ReactNode }) {
+  const DEMO_MODE = typeof window !== "undefined" && process.env.NEXT_PUBLIC_DEMO_MODE === "true";
   const [connected, setConnected]       = useState(false);
   const [activeBroker, setActiveBroker] = useState("");
   const [activeEnv, setActiveEnv]       = useState("");
@@ -73,14 +75,53 @@ export function EngineProvider({ children }: { children: ReactNode }) {
   const wsRef        = useRef<WebSocket | null>(null);
   const reconnectRef = useRef<ReturnType<typeof setTimeout>>();
   const handlersRef  = useRef<Set<WsHandler>>(new Set());
+  const demoDoneRef  = useRef(false);
 
   const subscribe = useCallback((handler: WsHandler) => {
     handlersRef.current.add(handler);
     return () => { handlersRef.current.delete(handler); };
   }, []);
 
-  // ── Initial REST fetch ──────────────────────────────────────────────────
+  // ── Demo mode ──────────────────────────────────────────────────────────
   useEffect(() => {
+    if (!DEMO_MODE || demoDoneRef.current) return;
+    demoDoneRef.current = true;
+
+     setConnected(true);
+    setActiveBroker("demo");
+    setActiveEnv("paper");
+    setAvailBrokers(["demo"]);
+    setBrokerInfo({ demo: { env: "paper" } });
+    setEquity(102345.67);
+    setDailyPnl(324.50);
+
+    const dispatch = (evt: WsEvent) => {
+      handlersRef.current.forEach((h) => h(evt));
+    };
+
+    // Account info
+    dispatch({ type: "account", data: { equity: 102345.67, daily_pnl: 324.50, broker: "demo" } });
+
+    // Positions after a short delay
+    setTimeout(() => {
+      dispatch({ type: "positions", data: demoPositions });
+    }, 500);
+
+    // Signals trickling in
+    const signalTimers: ReturnType<typeof setTimeout>[] = [];
+    demoSigs.forEach((s, i) => {
+      const t = setTimeout(() => {
+        dispatch({ type: "signal", data: { ...s, generated_at: new Date().toISOString() } });
+      }, 1000 + i * 800);
+      signalTimers.push(t);
+    });
+
+    return () => signalTimers.forEach(clearTimeout);
+  }, [DEMO_MODE]);
+
+  // ── Initial REST fetch (live mode only) ─────────────────────────────────
+  useEffect(() => {
+    if (DEMO_MODE) return;
     async function fetchInitial() {
       try {
         const [br, ac] = await Promise.allSettled([
@@ -105,10 +146,11 @@ export function EngineProvider({ children }: { children: ReactNode }) {
       } catch {}
     }
     fetchInitial();
-  }, []);
+  }, [DEMO_MODE]);
 
-  // ── WebSocket ───────────────────────────────────────────────────────────
+  // ── WebSocket (live mode only) ──────────────────────────────────────────
   const connect = useCallback(() => {
+    if (DEMO_MODE) return;
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
     const ws = new WebSocket(WS_URL);
     wsRef.current = ws;
@@ -158,7 +200,7 @@ export function EngineProvider({ children }: { children: ReactNode }) {
         }
       } catch {}
     };
-  }, []);
+  }, [DEMO_MODE]);
 
   useEffect(() => {
     connect();
