@@ -45,7 +45,7 @@ export default function HomePage() {
 
     switch (evt.type) {
       case "signal": {
-        const s = data as Signal;
+        const s = data as unknown as Signal;
         pushLog(`SIGNAL ${s.symbol} ${s.direction?.toUpperCase()} @ ${s.entry_price} conf=${((s.confidence ?? 0) * 100).toFixed(0)}%`);
         setSignals((prev) => [{ ...s, generated_at: s.generated_at ?? new Date().toISOString() }, ...prev].slice(0, MAX_SIG));
         break;
