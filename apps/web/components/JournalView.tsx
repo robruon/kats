@@ -69,9 +69,9 @@ export function JournalView() {
       const equityParams = new URLSearchParams({ broker: brokerKey });
 
       const [s, e, t] = await Promise.all([
-        fetch(`/api/journal/stats?broker=${brokerKey}`).then((r) => r.json()),
-        fetch(`/api/journal/equity?${equityParams}`).then((r) => r.json()),
-        fetch(`/api/journal/trades?${params}`).then((r) => r.json()),
+        fetch(`/kats/api/journal/stats?broker=${brokerKey}`).then((r) => r.json()),
+        fetch(`/kats/api/journal/equity?${equityParams}`).then((r) => r.json()),
+        fetch(`/kats/api/journal/trades?${params}`).then((r) => r.json()),
       ]);
       setStats(s);
       setEquity(Array.isArray(e) ? e : []);
@@ -87,7 +87,7 @@ export function JournalView() {
     setSyncing(true);
     setSyncMsg("");
     try {
-      const res = await fetch("/api/engine/sync-history", { method: "POST" });
+      const res = await fetch("/kats/api/engine/sync-history", { method: "POST" });
       const data = await res.json() as { synced?: number; error?: string };
       if (data.synced != null) {
         setSyncMsg(`Synced ${data.synced} trade${data.synced !== 1 ? "s" : ""} from broker`);

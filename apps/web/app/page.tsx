@@ -7,7 +7,7 @@ import { LiveView } from "@/components/LiveView";
 import { useEngine, useEngineEvent } from "@/components/EngineContext";
 import type { Position, Signal, WsEvent } from "@/lib/types";
 
-const ENGINE  = process.env.NEXT_PUBLIC_ENGINE_URL ?? "http://localhost:8765";
+const ENGINE  = process.env.NEXT_PUBLIC_ENGINE_URL ?? "/kats/api/engine";
 const MAX_LOG = 200;
 const MAX_SIG = 50;
 
