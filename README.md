@@ -31,13 +31,8 @@ Databento ─────┘           Signal gen    ─┘  Gate    ► NinjaTr
 
 ```bash
 # 1. Clone and set up Python environment
-<<<<<<< HEAD
-git clone https://github.com/robruon/kats.git
-cd kronos-trade
-=======
 git clone --recurse-submodules https://github.com/robruon/kats.git
 cd kats
->>>>>>> 2b147c8 (chore: update README clone instructions for submodule support)
 chmod +x scripts/setup.sh && ./scripts/setup.sh
 
 # 2. Fill in API keys
